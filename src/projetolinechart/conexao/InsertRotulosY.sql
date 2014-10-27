@@ -1,0 +1,6 @@
+INSERT INTO linechartdb.rotulosy (rotulo, id_linechart) 
+	VALUES ('0.0', 1)
+INSERT INTO linechartdb.rotulosy (rotulo, id_linechart) 
+	VALUES ('5.0', 1)
+INSERT INTO linechartdb.rotulosy (rotulo, id_linechart) 
+	VALUES ('10.0', 1)
