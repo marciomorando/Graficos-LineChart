@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import projetolinechart.dados.LineChart;
@@ -19,6 +18,9 @@ public class LineChartDAO {
         LineChart lineChart = null;
 
         Conecta c = new Conecta();
+        
+        LineChartDAO d = new LineChartDAO();
+        d.getLineChart(1);
 
         if ("sucesso".equals(c.getMsg())) {
 
