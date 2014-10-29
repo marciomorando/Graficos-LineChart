@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import projetolinechart.dao.LineChartDAO;
 
 /**
  *
@@ -20,116 +21,207 @@ public class LineChart extends JPanel implements InterfaceChart{
     String titulo;
     String labelX;
     String labelY;
-    Color cor;
-    ArrayList<Point2D> pontos;
     ArrayList<String> valoresX;
     ArrayList<String> valoresY;
+  
+    JLabel labelTitulo;
+    JLabel label_eixoX;    
+    JLabel label_eixoY;
+    ArrayList<JLabel> labelsX ;
+    ArrayList<Point2D> pontos;
+    Color cor;
+    ArrayList<JLabel> labelsY;
     
- 
+    
+    public LineChart() {
+        this.labelTitulo =  new JLabel("LabelTitulo");
+        this.labelTitulo.setFont(new Font("Arial", Font.PLAIN, 20));
+        this.labelTitulo.setBounds(420, 10, 200, 20);
+        this.add(labelTitulo);
+        
+        this.label_eixoX = new JLabel("Eixo MX");
+        this.label_eixoX.setFont(new Font("Arial", Font.PLAIN, 20));
+        this.label_eixoX.setBounds(420, 390, 100, 20);
+        this.add(label_eixoX);
+        
+        this.label_eixoY = new JLabel("Eixo MY");
+        this.label_eixoY.setFont(new Font("Arial", Font.PLAIN, 20));
+        this.label_eixoY.setBounds(10, 200, 100, 20);
+        this.add(label_eixoY);
+        
+  
+       
+        labelsX = new ArrayList<>();
+        labelsX.add(new JLabel("x1"));
+        labelsX.add(new JLabel("x2"));
+        labelsX.add(new JLabel("x3"));
+        labelsX.add(new JLabel("x4"));
+      
+        labelsY = new ArrayList<>();
+        labelsY.add(new JLabel("y1"));
+        labelsY.add(new JLabel("y2"));
+        labelsY.add(new JLabel("y3"));
+        
+        pontos = new ArrayList<>();
+        pontos.add(new Point2D.Double(120, 800));
+       /* pontos.add(new Point2D.Double(250, 300));
+        pontos.add(new Point2D.Double(300, 300));
+        pontos.add(new Point2D.Double(400, 300));
+        pontos.add(new Point2D.Double(500, 300));*/
+        
+      
+    }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); 
+        
+        LineChartDAO d = new LineChartDAO();
+        d.getLineChart(1);
+        
         
       g.drawRect(120, 50, 650, 300); 
       g.drawLine(120, 125, 770, 125);
       g.drawLine(120, 200, 770, 200);
       g.drawLine(120, 275, 770, 275);
-     
+      
+      labelTitulo.setBounds(380, 10, 200, 20);
+      label_eixoX.setBounds(400, 390, 100, 20);
+      label_eixoY.setBounds(10, 200, 100, 20);
+      
+ 
+      
+      
+       float n = (float) 0.95;
+        int largura = (int) (650/(labelsX.size()-n));
+        int temp = 0;
+          for (int i = 0; i < labelsX.size(); i++) {
+
+            labelsX.get(i).setText(valoresX.get(i));
+        }
+        for (JLabel labelsX1 : labelsX) {
+            labelsX1.setBounds(120 + temp, 350, largura, 20);
+            temp = temp + largura;
+            this.add(labelsX1);
+            
+              float a = (float) 0.95; 
+      int altura = (int) (300/(labelsY.size()-a));
+      int temp1 = 0;
+              for (int i = 0; i < labelsY.size(); i++) {
+           labelsY.get(i).setText(valoresY.get(i));
+        }
+              for(JLabel labelsY1 : labelsY){
+                  labelsY1.setBounds(95, 270+temp1, 30, altura);
+                  temp1 = temp1 - altura;
+                  this.add(labelsY1);
+              }
+   
+
         g2d = (Graphics2D) g;
-        this.setTitulo("Titulo 1");
-        this.setLabelX("Eixo x");
-        this.setLabelY("Eixo y");
-        g2d.setColor(new Color(255,255,255));
-        
-        
+        g2d.setColor(new Color(255,255,255));        
         g2d.setColor(new Color(0, 0, 0));
-        ArrayList<String> x = new ArrayList<>();
-        x.add("0.0");
-        x.add("4.0");
-        x.add("8.0");
-        x.add("12.0");
         
-        ArrayList<String> y = new ArrayList<>();
-        y.add("0.0");
-        y.add("5.0");
-        y.add("10.0");
-       
-    
-    this.setEixoX(x);
-    this.setEixoY(y);
-    
-    ArrayList<Point2D> pontos = new ArrayList<Point2D>(); 
-    pontos.add(new Point2D.Double(120, 500)); 
-    pontos.add(new Point2D.Double(200, 200)); 
-    pontos.add(new Point2D.Double(300, 400)); 
-    pontos.add(new Point2D.Double(425, 125)); 
-    pontos.add(new Point2D.Double(600, 400)); 
-    pontos.add(new Point2D.Double(680, 120));
-    this.adicionarSerie(pontos, new Color(10,10,10));
-        
+            
+            for (int i = 1; i <= pontos.size(); i++) {
+                
+                
+               g2d.drawLine((int) pontos.get(i - 1).getX(),
+                             (int) pontos.get(i - 1).getY(), 
+                             (int) pontos.get(i).getX(),
+                             (int) pontos.get(i).getY());
+                if (i == (pontos.size() - 1)) {
+                    break;
+                }
+            }
+     
     }
-    
+}
     
     
     @Override
-    public void adicionarSerie(ArrayList<Point2D> serie, Color cor) {
-
+            public void adicionarSerie(ArrayList<Point2D> pontos, Color cor) {
+            this.pontos = pontos;
+            this.cor = cor;
     }
 
     @Override
     public void setEixoX(ArrayList<String> valores) {
-        float n = (float) 0.95;
-        int largura = (int) (650/(valores.size()-n));
-        int temp = 0;
-        for(int i = 0; i < valores.size(); i ++){
-            JLabel x = new JLabel(valores.get(i));
-                x.setBounds(120+temp, 350, largura, 20);
-                temp = temp + largura;
-                this.add(x);
-            }
+        this.valoresX = valores;
+        
     }
 
     @Override
     public void setEixoY(ArrayList<String> valores) {
-        float n = (float) 0.95;
-        int altura = (int) (300/(valores.size()-n));
-        int temp = 0;
-        for(int i = 0; i < valores.size() ; i++){
-            JLabel y = new JLabel(valores.get(i));
-            y.setBounds(95, 270+temp, 30, altura);
-            //g2d.drawLine(120, 520+temp, 770, 520+temp);
-            temp = temp - altura;
-            this.add(y);
-        }
+
+        this.valoresY = valores;
+        
     }
 
     @Override
     public void setLabelX(String labelX) {
-        JLabel x = new JLabel(labelX);
-        x.setFont(new Font("Arial", Font.PLAIN, 20));
-        x.setBounds(420, 390, 100, 20);
-        this.add(x);
+        
+        this.labelX = labelX;
+
     }
 
     @Override
     public void setLabelY(String labelY) {
-        JLabel y = new JLabel(labelY);
-        y.setFont(new Font("Arial", Font.PLAIN, 20));
-        y.setBounds(10, 200, 100, 20);
-        this.add(y);
         
-      //g2d.rotate(Math.PI / -2.0);
-      //g2d.drawString("Eixo Y", -220, 190 - 170);
-      //g2d.setBackground(Color.black);
+        this.labelY = labelY;
+
        
     }
 
     @Override
     public void setTitulo(String titulo) {
-         JLabel j = new JLabel(titulo);
-        j.setFont(new Font("Arial", Font.PLAIN, 20));
-        j.setBounds(420, 10, 200, 20);
-        this.add(j);
+        this.titulo = titulo;
     }
+    
+    public void atualizaGrafico(){
+        labelTitulo.setText(this.titulo);
+        label_eixoX.setText(this.labelX);
+        label_eixoY.setText(this.labelY);
+        
+        
+         
+    }
+    
+
+    public Graphics2D getG2d() {
+        return g2d;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public JLabel getLabelTitulo() {
+        return labelTitulo;
+    }
+
+    public String getLabelX() {
+        return labelX;
+    }
+
+    public String getLabelY() {
+        return labelY;
+    }
+
+    public Color getCor() {
+        return cor;
+    }
+
+    public ArrayList<Point2D> getPontos() {
+        return pontos;
+    }
+
+    public ArrayList<String> getValoresX() {
+        return valoresX;
+    }
+
+    public ArrayList<String> getValoresY() {
+        return valoresY;
+    }
+
     
 }

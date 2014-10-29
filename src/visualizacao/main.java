@@ -6,9 +6,11 @@
 
 package visualizacao;
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import projetolinechart.dados.LineChart;
+import projetolinechart.dao.LineChartDAO;
 
 
 
@@ -18,15 +20,25 @@ import projetolinechart.dados.LineChart;
  */
 public class main {
     public static void main(String args[]){
+        
+         
          JFrame janela = new JFrame();
+         
         LineChart lc = new LineChart();
-        BorderLayout layout = new BorderLayout();
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        janela.setSize(800, 450);
-        janela.setLayout(layout);  
+        janela.setSize(800, 450); 
         janela.setResizable(false);
         janela.setVisible(true);
         janela.add(lc);
         janela.setLocationRelativeTo(null);
+        
+        LineChart lcNovo = new LineChartDAO().getLineChart(1);
+        lc.setTitulo(lcNovo.getTitulo());
+        lc.setEixoX(lcNovo.getValoresX());
+        lc.setEixoY(lcNovo.getValoresY());
+        lc.setLabelX(lcNovo.getLabelX());
+        lc.setLabelY(lcNovo.getLabelY());
+        lc.adicionarSerie(lcNovo.getPontos(), lcNovo.getCor());
+        lc.atualizaGrafico();
     }
 }

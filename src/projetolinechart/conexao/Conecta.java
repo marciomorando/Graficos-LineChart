@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class Conecta {
 
     private String DRIVER = "com.mysql.jdbc.Driver";
-    private String BD = "LINECHARTDB";
+    private String BD = "linechartdb";
     private String URL = "jdbc:mysql://localhost:3306/"+BD;
     private String USERNAME = "root";
     private String PASSWORD = "";

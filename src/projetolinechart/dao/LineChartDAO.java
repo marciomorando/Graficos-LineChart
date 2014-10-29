@@ -16,18 +16,16 @@ public class LineChartDAO {
 
     public LineChart getLineChart(int id) {
         LineChart lineChart = null;
+       
 
         Conecta c = new Conecta();
-        
-        LineChartDAO d = new LineChartDAO();
-        d.getLineChart(1);
 
         if ("sucesso".equals(c.getMsg())) {
 
             // Vamos preparar o comando SQL:
-            String sql = "SELECT TITULO, LABELX, LABELY FROM LINECHART WHERE ID = 1;";
-            String sql2 = "select rotulo from rotulosx where id_linechart = 1;";
-            String sql3 = "select rotulo from rotulosy where id_linechart = 1;";
+            String sql = "SELECT titulo, labelX, labelY FROM linechart WHERE id = 1;";
+            String sql2 = "select rotulo from rotulosX where id_linechart = 1;";
+            String sql3 = "select rotulo from rotulosY where id_linechart = 1;";
             String sql4 = "select x, y from pontos where id_linechart = 1;";
 
             // Definido o Statement, executamos o comando no banco de dados.
@@ -49,7 +47,6 @@ public class LineChartDAO {
                     lineChart.setLabelX(rotulox);
                     lineChart.setLabelY(rotuloy);
 
-                    
                 }
                 
                 rs = c.getStm().executeQuery(sql2);
